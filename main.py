@@ -1,16 +1,14 @@
 import os
-
 from flask import Flask, render_template, redirect, url_for, flash, abort
 from flask_bootstrap import Bootstrap
 from flask_ckeditor import CKEditor
 from datetime import date
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import UserMixin, login_user, LoginManager, current_user, logout_user, login_required
+from flask_login import UserMixin, login_user, LoginManager, current_user, logout_user
 from forms import CreatePostForm, RegisterForm, LogInForm, CommentForm
 from flask_gravatar import Gravatar
 from functools import wraps
-from boto.s3.connection import S3Connection
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ.get("KEY")
@@ -41,7 +39,7 @@ gravatar = Gravatar(
 
 
 # CONNECT TO DB
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///blog.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL")
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
