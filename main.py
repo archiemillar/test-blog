@@ -123,7 +123,7 @@ def register():
 @app.route('/login', methods=["GET", "POST"])
 def login():
     login_form = LogInForm()
-    return render_template("login.html", form=login_form)
+    return render_template("login.html")
 
 
 @app.route('/logout')
