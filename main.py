@@ -13,7 +13,7 @@ from functools import wraps
 from boto.s3.connection import S3Connection
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = S3Connection(os.environ['KEY'])
+app.config['SECRET_KEY'] = os.environ.get("KEY")
 ckeditor = CKEditor(app)
 Bootstrap(app)
 
