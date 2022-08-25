@@ -13,10 +13,9 @@ from functools import wraps
 
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = os.environ["KEY"]
+app.config['SECRET_KEY'] = os.environ.get("KEY")
 ckeditor = CKEditor(app)
 Bootstrap(app)
-
 
 # Flask-Login
 login_manager = LoginManager()
