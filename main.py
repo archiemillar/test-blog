@@ -10,9 +10,10 @@ from flask_login import UserMixin, login_user, LoginManager, current_user, logou
 from forms import CreatePostForm, RegisterForm, LogInForm, CommentForm
 from flask_gravatar import Gravatar
 from functools import wraps
+from boto.s3.connection import S3Connection
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = os.environ.get("KEY")
+app.config['SECRET_KEY'] = S3Connection(os.environ['KEY'])
 ckeditor = CKEditor(app)
 Bootstrap(app)
 
@@ -123,7 +124,16 @@ def register():
 @app.route('/login', methods=["GET", "POST"])
 def login():
     login_form = LogInForm()
-    return render_template("login.html")
+    if login_form.validate_on_submit():
+        user = User.query.filter_by(email=login_form.email.data).first()
+        if not user:
+            flash("That email does not exist. Please try again.")
+        elif not check_password_hash(pwhash=user.password, password=login_form.password.data):
+            flash("Password incorrect. Please try again.")
+        else:
+            login_user(user)
+            return redirect(url_for('get_all_posts'))
+    return render_template("login.html", form=login_form)
 
 
 @app.route('/logout')
