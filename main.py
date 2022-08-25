@@ -11,7 +11,6 @@ from forms import CreatePostForm, RegisterForm, LogInForm, CommentForm
 from flask_gravatar import Gravatar
 from functools import wraps
 
-
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ.get("KEY")
 ckeditor = CKEditor(app)
@@ -40,13 +39,13 @@ gravatar = Gravatar(
 )
 
 
-##CONNECT TO DB
+# CONNECT TO DB
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///blog.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 
-##CONFIGURE TABLES
+# CONFIGURE TABLES
 
 class User(db.Model, UserMixin):
     __tablename__ = "users"
